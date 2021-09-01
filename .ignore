@@ -1,0 +1,6 @@
+*
+!Assets/
+!Assets/**/
+!Assets/**/*.cs
+!Assets/**/*.shader
+!Assets/**/*.txt

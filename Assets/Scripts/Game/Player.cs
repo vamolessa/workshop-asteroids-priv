@@ -2,7 +2,8 @@ using UnityEngine;
 
 public sealed class Player : MonoBehaviour
 {
-    public Rigidbody playerRigidbody;
+    public Rigidbody myRigidbody;
+    public Bullet bulletPrefab;
 
     public float acceleration = 1.0f;
     public float maxVelocity = 10.0f;
@@ -12,16 +13,22 @@ public sealed class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            playerRigidbody.AddForce(transform.up * acceleration, ForceMode.Acceleration);
+            myRigidbody.AddForce(transform.up * acceleration, ForceMode.Acceleration);
 
-            float velocity = playerRigidbody.velocity.magnitude;
+            float velocity = myRigidbody.velocity.magnitude;
             if (velocity > maxVelocity)
-                playerRigidbody.velocity *= maxVelocity / velocity;
+                myRigidbody.velocity *= maxVelocity / velocity;
         }
 
         if (Input.GetKey(KeyCode.A))
-            playerRigidbody.rotation *= Quaternion.Euler(0.0f, 0.0f, angularVelocity * Time.deltaTime);
+            myRigidbody.rotation *= Quaternion.Euler(0.0f, 0.0f, angularVelocity * Time.deltaTime);
         if (Input.GetKey(KeyCode.D))
-            playerRigidbody.rotation *= Quaternion.Euler(0.0f, 0.0f, -angularVelocity * Time.deltaTime);
+            myRigidbody.rotation *= Quaternion.Euler(0.0f, 0.0f, -angularVelocity * Time.deltaTime);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var bullet = Instantiate(bulletPrefab, myRigidbody.position, Quaternion.identity);
+            bullet.Shoot(transform.up);
+        }
     }
 }

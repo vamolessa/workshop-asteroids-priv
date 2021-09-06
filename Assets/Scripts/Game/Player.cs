@@ -2,33 +2,57 @@ using UnityEngine;
 
 public sealed class Player : MonoBehaviour
 {
-    public Rigidbody myRigidbody;
+    public Rigidbody2D myRigidbody;
     public Bullet bulletPrefab;
 
-    public float acceleration = 1.0f;
+    public float movementForce = 1.0f;
     public float maxVelocity = 10.0f;
     public float angularVelocity = 60.0f;
+    public float shootCooldownInSeconds = 0.5f;
+    public float shootCameraShakeStrenght = 0.02f;
+    public int shootCameraShakeCount = 5;
 
-    private void Update()
+    private float lastShootTimestamp = Mathf.NegativeInfinity;
+
+    private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
         {
-            myRigidbody.AddForce(transform.up * acceleration, ForceMode.Acceleration);
+            myRigidbody.AddForce(transform.up * movementForce, ForceMode2D.Force);
 
             float velocity = myRigidbody.velocity.magnitude;
             if (velocity > maxVelocity)
+            {
                 myRigidbody.velocity *= maxVelocity / velocity;
+            }
         }
 
         if (Input.GetKey(KeyCode.A))
-            myRigidbody.rotation *= Quaternion.Euler(0.0f, 0.0f, angularVelocity * Time.deltaTime);
-        if (Input.GetKey(KeyCode.D))
-            myRigidbody.rotation *= Quaternion.Euler(0.0f, 0.0f, -angularVelocity * Time.deltaTime);
-
-        if (Input.GetKeyDown(KeyCode.Space))
         {
+            myRigidbody.rotation += angularVelocity * Time.deltaTime;
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            myRigidbody.rotation -= angularVelocity * Time.deltaTime;
+        }
+    }
+
+    private void Update()
+    {
+        var timeNow = Time.time;
+        if (Input.GetKeyDown(KeyCode.Space) && lastShootTimestamp + shootCooldownInSeconds < timeNow)
+        {
+            lastShootTimestamp = timeNow;
             var bullet = Instantiate(bulletPrefab, myRigidbody.position, Quaternion.identity);
             bullet.Shoot(transform.up);
+
+            GameCamera.instance.Shake(shootCameraShakeStrenght, shootCameraShakeCount);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        Debug.Log("epaa!!");
     }
 }

@@ -4,29 +4,36 @@ public sealed class TorusPosition : MonoBehaviour
 {
     public const float MARGIN = 0.5f;
 
-    public Rigidbody myRigidbody;
-    public Camera camera;
+    public Rigidbody2D myRigidbody;
 
-    private void Update()
+    private void FixedUpdate()
     {
+        var gameCamera = GameCamera.instance;
         var myPosition = myRigidbody.position;
-        var cameraPosition = camera.transform.position;
-        cameraPosition.z = myPosition.z;
+        var cameraPosition = (Vector2)gameCamera.transform.position;
 
         var positionInCamera = myPosition - cameraPosition;
 
-        var maxX = camera.orthographicSize * camera.aspect + MARGIN;
-        var maxY = camera.orthographicSize + MARGIN;
+        var maxX = gameCamera.myCamera.orthographicSize * gameCamera.myCamera.aspect + MARGIN;
+        var maxY = gameCamera.myCamera.orthographicSize + MARGIN;
 
         if (myPosition.x > maxX)
+        {
             myPosition.x = -maxX;
+        }
         if (myPosition.x < -maxX)
+        {
             myPosition.x = maxX;
+        }
 
         if (myPosition.y > maxY)
+        {
             myPosition.y = -maxY;
+        }
         if (myPosition.y < -maxY)
+        {
             myPosition.y = maxY;
+        }
 
         myRigidbody.position = myPosition + cameraPosition;
     }

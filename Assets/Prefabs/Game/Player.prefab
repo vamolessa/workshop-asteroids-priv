@@ -141,7 +141,7 @@ MonoBehaviour:
   maxVelocity: 7
   angularVelocity: 180
   shootCooldownInSeconds: 0.5
-  shootCameraShakeStrenght: 0.02
+  shootCameraShakeStrenght: 0.04
   shootCameraShakeCount: 8
 --- !u!114 &6656262039037062151
 MonoBehaviour:

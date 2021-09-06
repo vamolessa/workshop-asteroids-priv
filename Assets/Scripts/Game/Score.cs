@@ -14,9 +14,16 @@ public sealed class Score : MonoBehaviour
         scoreLabel.text = score.ToString();
     }
 
+    private void OnDestroy()
+    {
+        Asteroid.OnDestroyed -= OnAsteroidDestroyed;
+    }
+
     private void OnAsteroidDestroyed(Asteroid asteroid)
     {
         score += scorePerAsteroid;
         scoreLabel.text = score.ToString();
+
+        PlayerPrefs.SetInt("BestScore", score);
     }
 }

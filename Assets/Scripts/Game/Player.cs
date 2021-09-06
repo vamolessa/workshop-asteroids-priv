@@ -2,6 +2,8 @@ using UnityEngine;
 
 public sealed class Player : MonoBehaviour
 {
+    public static System.Action<Player> OnDestroyed;
+
     public Rigidbody2D myRigidbody;
     public Bullet bulletPrefab;
 
@@ -53,6 +55,10 @@ public sealed class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("epaa!!");
+        if (OnDestroyed != null)
+        {
+            OnDestroyed(this);
+        }
+        Destroy(gameObject);
     }
 }

@@ -18,12 +18,13 @@ public sealed class GameOver : MonoBehaviour
 
     private void OnPlayerDestroyed(Player player)
     {
-        StartCoroutine(GameOverCoroutine());
+        var destroyDelayInSeconds = player.destroyFxPrefab.GetDurationInSeconds();
+        StartCoroutine(GameOverCoroutine(destroyDelayInSeconds));
     }
 
-    private IEnumerator GameOverCoroutine()
+    private IEnumerator GameOverCoroutine(float destroyDelayInSeconds)
     {
-        yield return new WaitForSeconds(loadTitleScreenDelayInSeconds);
+        yield return new WaitForSeconds(destroyDelayInSeconds + loadTitleScreenDelayInSeconds);
         SceneManager.LoadScene("Title");
     }
 }

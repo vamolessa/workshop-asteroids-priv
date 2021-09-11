@@ -8,6 +8,7 @@ public sealed class Asteroid : MonoBehaviour
     public Rigidbody2D myRigidbody;
     public Asteroid smallerAsteroidPrefab;
     public int smallerAsteroidSpawnCount = 3;
+    public DestroyFx destroyFxPrefab;
 
     public float cameraShakeStrengh = 0.01f;
     public int cameraShakeCount = 20;
@@ -62,6 +63,7 @@ public sealed class Asteroid : MonoBehaviour
             }
 
             GameCamera.instance.Shake(cameraShakeStrengh, cameraShakeCount);
+            Instantiate(destroyFxPrefab, myRigidbody.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }

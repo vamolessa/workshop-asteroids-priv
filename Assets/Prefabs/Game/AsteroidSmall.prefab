@@ -138,6 +138,7 @@ MonoBehaviour:
   myRigidbody: {fileID: 5706106575652936393}
   smallerAsteroidPrefab: {fileID: 0}
   smallerAsteroidSpawnCount: 0
+  destroyFxPrefab: {fileID: 8563156205484522271, guid: 11324f50cf9ef22428ec3fe544e73951, type: 3}
   cameraShakeStrengh: 0.04
   cameraShakeCount: 10
   minInitialVelocity: 1
